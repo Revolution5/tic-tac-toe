@@ -1,5 +1,18 @@
 const gameBoard = (function() {
-    let gameBoardArray = ["","X","","X","O","X","","X",""];
+    const gameBoardArray = ["","","","","","","","",""];
+
+    let squares = Array.from(document.querySelectorAll(".game-container > div"));
+    squares.forEach(square => {
+        square.addEventListener("click", function(e) {
+            let clicked = e.target.id; //id == square0, square1, etc
+            let number = Number(clicked.charAt(clicked.length - 1));
+            //uses the number in the id as the array index
+            if(gameBoardArray[number] == "") {
+                gameBoardArray[number] = "X"; //should be current players player.mark
+                displayController.displayBoard();   
+            } 
+        })
+    })
     return {gameBoardArray};
 })();
 
@@ -8,7 +21,7 @@ const displayController = (function() {
         for(let i = 0; i < gameBoard.gameBoardArray.length; i++) {
             //converts the iterator to a string for the square selector
             //ex: i = 0 will select square0
-            document.querySelector(".square" + i.toString()).textContent = gameBoard.gameBoardArray[i];
+            document.querySelector("#square" + i.toString()).textContent = gameBoard.gameBoardArray[i];
         }
     }
     return {displayBoard}
@@ -20,11 +33,3 @@ const Player = (name, mark) => {
 
 const playerOne = Player("Damon", "X");
 const playerTwo = Player("Sara", "O");
-
-displayController.displayBoard();
-
-//loop thru square divs 
-//if the clicked square's text content is empty
-//add click event that updates the position in the array corresponding
-//with the clicked square with the current players player.mark
-//redisplay the board

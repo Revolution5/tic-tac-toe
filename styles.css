@@ -8,23 +8,25 @@
 .game-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     width: 500px;
     height: 500px;
 }
 
-.square0, .square1, .square2 {
+#square0, #square1, #square2 {
+    border-bottom: solid 3px black;
+    box-sizing: border-box;
+}
+
+#square3, #square4, #square5 {
     border-bottom: solid 3px black;
 }
 
-.square3, .square4, .square5 {
-    border-bottom: solid 3px black;
-}
-
-.square0, .square3, .square6 {
+#square0, #square3, #square6 {
     border-right: solid 3px black;
 }
 
-.square1, .square4, .square7 {
+#square1, #square4, #square7 {
     border-right: solid 3px black;
 }
 
@@ -32,6 +34,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    font-size: 80px;
     
 }
 
