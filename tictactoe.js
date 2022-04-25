@@ -1,18 +1,5 @@
 const gameBoard = (function() {
     const gameBoardArray = ["","","","","","","","",""];
-
-    let squares = Array.from(document.querySelectorAll(".game-container > div"));
-    squares.forEach(square => {
-        square.addEventListener("click", function(e) {
-            let clicked = e.target.id; //id == square0, square1, etc
-            let number = Number(clicked.charAt(clicked.length - 1));
-            //uses the number in the id as the array index
-            if(gameBoardArray[number] == "") {
-                gameBoardArray[number] = "X"; //should be current players player.mark
-                displayController.displayBoard();   
-            } 
-        })
-    })
     return {gameBoardArray};
 })();
 
@@ -28,8 +15,27 @@ const displayController = (function() {
 })();
 
 const Player = (name, mark) => {
-    return {name, mark};
+    //idk where to put this function
+    function playTurn() {
+        let squares = Array.from(document.querySelectorAll(".game-container > div"));
+        squares.forEach(square => {
+            square.addEventListener("click", function(e) {
+                let clicked = e.target.id; //id == square0, square1, etc
+                let number = Number(clicked.charAt(clicked.length - 1));
+                //uses the number in the id as the array index
+                if(gameBoard.gameBoardArray[number] == "") {
+                    gameBoard.gameBoardArray[number] = mark; //should be current players player.mark
+                    displayController.displayBoard();   
+                }
+            });
+        })
+    }
+    return {name, mark, playTurn};
 }
 
 const playerOne = Player("Damon", "X");
 const playerTwo = Player("Sara", "O");
+
+playerOne.playTurn();
+playerTwo.playTurn();
+
