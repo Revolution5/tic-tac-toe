@@ -65,7 +65,7 @@ const gameBoard = (function() {
             }
             //if every square is full but no rows match
             else if(gameBoardArray.every((element) => element.length > 0) && winner == false) {
-                winnerText.textContent = "Its a tie!";
+                winnerText.textContent = "It's a tie!";
                 container.prepend(winnerText);
                 squares.forEach(square => {
                     square.removeEventListener("click", clickHandler);
@@ -119,7 +119,9 @@ const Player = (name, mark) => {
     return {name, mark};
 }
 
-const playerOne = Player("Player One", "X");
-const playerTwo = Player("Player Two", "O");
+let playerOneName = prompt("Enter name for Player One (X)");
+let playerTwoName = prompt("Enter name for Player Two (O)");
+const playerOne = Player(playerOneName, "X");
+const playerTwo = Player(playerTwoName, "O");
 
 gameBoard.activateBoard();
