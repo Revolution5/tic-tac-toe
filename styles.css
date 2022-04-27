@@ -5,6 +5,7 @@
     align-items: center;
     min-height: 95vh;
     box-sizing: border-box;
+    gap: 30px;
 }
 
 .game-container {
@@ -38,6 +39,9 @@
     justify-content: center;
     box-sizing: border-box;
     font-size: 80px;
-    
+}
+
+.reset-button {
+    font-size: 30px;
 }
 

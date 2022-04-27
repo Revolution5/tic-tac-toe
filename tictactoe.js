@@ -1,5 +1,5 @@
 const gameBoard = (function() {
-    const gameBoardArray = ["","","","","","","","",""];
+    let gameBoardArray = ["","","","","","","","",""];
     let totalTurns = 0;
     const winConditions = [
         [0,1,2],
@@ -11,10 +11,24 @@ const gameBoard = (function() {
         [0,4,8],
         [2,4,6]
     ]
+
     let squares = Array.from(document.querySelectorAll(".game-container > div"));
-    
+
+    const container = document.querySelector(".global-container");
+    const winnerText = document.createElement("h1");
+    const resetButton = document.createElement("button");
+    resetButton.classList.add("reset-button");
+    resetButton.textContent = "Reset";
+    let winner = false;
+
     function resetBoard() {
-        gameBoardArray = ["","","","","","","","",""];
+        for(let i = 0; i < gameBoardArray.length; i++) {
+            gameBoardArray[i] = "";
+        }
+        totalTurns = 0;
+        winnerText.textContent = ""
+        winner = false;
+        container.removeChild(resetButton);
     }
 
     function activateBoard() {
@@ -23,38 +37,40 @@ const gameBoard = (function() {
         })
     }
     
-    const container = document.querySelector(".global-container");
-    const winnerText = document.createElement("h1");
-    let winner = false;
-
     function checkForWin() {
         for(let i = 0; i < winConditions.length; i++){
-            if (gameBoardArray[winConditions[i][0]] == "X" && 
-                gameBoardArray[winConditions[i][1]] == "X" && 
-                gameBoardArray[winConditions[i][2]] == "X") {
+            //if the squares in the current row/column are "X"
+            if (gameBoardArray[winConditions[i][0]] == playerOne.mark && 
+                gameBoardArray[winConditions[i][1]] == playerOne.mark && 
+                gameBoardArray[winConditions[i][2]] == playerOne.mark) {
                     winner = true;
-                    winnerText.textContent = "X wins!";
+                    winnerText.textContent = playerOne.name + " wins!";
                     container.prepend(winnerText);
                     squares.forEach(square => {
                         square.removeEventListener("click", clickHandler);
                     })
+                    container.appendChild(resetButton);
             }
-            else if(gameBoardArray[winConditions[i][0]] == "O" && 
-                    gameBoardArray[winConditions[i][1]] == "O" && 
-                    gameBoardArray[winConditions[i][2]] == "O") {
+            //if the squares in the current row/column are "O"
+            else if(gameBoardArray[winConditions[i][0]] == playerTwo.mark && 
+                    gameBoardArray[winConditions[i][1]] == playerTwo.mark && 
+                    gameBoardArray[winConditions[i][2]] == playerTwo.mark) {
                         winner = true;
-                        winnerText.textContent = "O wins!";
+                        winnerText.textContent = playerTwo.name + " wins!";
                         container.prepend(winnerText);
                         squares.forEach(square => {
                             square.removeEventListener("click", clickHandler);
                         })
+                        container.appendChild(resetButton);
             }
+            //if every square is full but no rows match
             else if(gameBoardArray.every((element) => element.length > 0) && winner == false) {
                 winnerText.textContent = "Its a tie!";
                 container.prepend(winnerText);
                 squares.forEach(square => {
                     square.removeEventListener("click", clickHandler);
-                }) 
+                })
+                container.appendChild(resetButton); 
             }
         }
     }
@@ -78,7 +94,7 @@ const gameBoard = (function() {
         }
     }
 
-    return {gameBoardArray, activateBoard, resetBoard};
+    return {gameBoardArray, activateBoard, resetButton, resetBoard};
 })();
 
 const displayController = (function() {
@@ -89,6 +105,13 @@ const displayController = (function() {
             document.querySelector("#square" + i.toString()).textContent = gameBoard.gameBoardArray[i];
         }
     }
+
+    gameBoard.resetButton.addEventListener("click", function(e) {
+        gameBoard.resetBoard();
+        displayBoard();
+        gameBoard.activateBoard();
+    })
+
     return {displayBoard}
 })();
 
@@ -96,7 +119,7 @@ const Player = (name, mark) => {
     return {name, mark};
 }
 
-const playerOne = Player("Damon", "X");
-const playerTwo = Player("Sara", "O");
+const playerOne = Player("Player One", "X");
+const playerTwo = Player("Player Two", "O");
 
 gameBoard.activateBoard();
