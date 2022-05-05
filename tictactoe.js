@@ -29,6 +29,7 @@ const gameBoard = (function() {
         squares.forEach(square => {
             square.addEventListener("click", clickHandler);
         })
+        displayController.displayText.textContent = playerOne.name + "'s turn! (X)";
     }
     
     function checkForWin() {
@@ -58,11 +59,11 @@ const gameBoard = (function() {
             //if every square is full but no rows match
             else if(gameBoardArray.every((element) => element.length > 0) && winner == false) {
                 displayController.displayText.textContent = "It's a tie!";
-                displayController.container.prepend(displayText);
+                displayController.container.prepend(displayController.displayText);
                 squares.forEach(square => {
                     square.removeEventListener("click", clickHandler);
                 })
-                container.appendChild(displayController.newRoundButton); 
+                displayController.container.appendChild(displayController.newRoundButton); 
             }
         }
     }
@@ -75,13 +76,13 @@ const gameBoard = (function() {
             if(totalTurns % 2 == 0){
                 gameBoardArray[number] = playerOne.mark;
                 totalTurns++; 
-                displayController.displayText.textContent = playerTwo.name + "'s turn!";
+                displayController.displayText.textContent = playerTwo.name + "'s turn! (O)";
                 checkForWin();
             }
             else if(totalTurns % 2 == 1){
                 gameBoardArray[number] = playerTwo.mark;
                 totalTurns++; 
-                displayController.displayText.textContent = playerOne.name + "'s turn!";
+                displayController.displayText.textContent = playerOne.name + "'s turn! (X)";
                 checkForWin();
             }
             displayController.displayBoard();   
@@ -97,8 +98,10 @@ const displayController = (function() {
     const newRoundButton = document.createElement("button");
     newRoundButton.classList.add("new-round");
     newRoundButton.textContent = "New Round";
+    let popUpForm = document.querySelector("form");
 
     function displayBoard() {
+        popUpForm.style.display = "none";
         container.prepend(displayText);
         let gameContainer = document.querySelector(".game-container");
         gameContainer.style.display = "grid";
@@ -141,11 +144,24 @@ class Player {
     }
 }
 
-
-let playerOneName = prompt("Enter name for Player One (X)");
-let playerTwoName = prompt("Enter name for Player Two (O)");
+let submitButton = document.querySelector(".submit");
+let playerOneName = "Player One";
+let playerTwoName = "Player Two";
 let playerOne = new Player(playerOneName, "X");
 let playerTwo = new Player(playerTwoName, "O");
 
-displayController.displayBoard();
-gameBoard.activateBoard();
+submitButton.addEventListener("click", function(e) {
+    playerOneName = document.getElementById("player-one").value
+    playerTwoName = document.getElementById("player-two").value
+
+    if(playerOneName.length >= 1)
+        playerOne.name = playerOneName;
+
+    if(playerTwoName.length >= 1)
+        playerTwo.name = playerTwoName;
+
+    displayController.displayBoard();
+    gameBoard.activateBoard();
+})
+
+
