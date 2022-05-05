@@ -13,12 +13,6 @@ const gameBoard = (function() {
     ]
 
     let squares = Array.from(document.querySelectorAll(".game-container > div"));
-
-    const container = document.querySelector(".content");
-    const winnerText = document.createElement("h1");
-    const resetButton = document.createElement("button");
-    resetButton.classList.add("reset-button");
-    resetButton.textContent = "New Round";
     let winner = false;
 
     function resetBoard() {
@@ -26,9 +20,9 @@ const gameBoard = (function() {
             gameBoardArray[i] = "";
         }
         totalTurns = 0;
-        winnerText.textContent = ""
+        displayController.displayText.textContent = ""
         winner = false;
-        container.removeChild(resetButton);
+        displayController.container.removeChild(displayController.newRoundButton);
     }
 
     function activateBoard() {
@@ -44,33 +38,31 @@ const gameBoard = (function() {
                 gameBoardArray[winConditions[i][1]] == playerOne.mark && 
                 gameBoardArray[winConditions[i][2]] == playerOne.mark) {
                     winner = true;
-                    winnerText.textContent = playerOne.name + " wins!";
-                    container.prepend(winnerText);
+                    displayController.displayText.textContent = playerOne.name + " wins!";
                     squares.forEach(square => {
                         square.removeEventListener("click", clickHandler);
                     })
-                    container.appendChild(resetButton);
+                    displayController.container.appendChild(displayController.newRoundButton);
             }
             //if the squares in the current row/column are "O"
             else if(gameBoardArray[winConditions[i][0]] == playerTwo.mark && 
                     gameBoardArray[winConditions[i][1]] == playerTwo.mark && 
                     gameBoardArray[winConditions[i][2]] == playerTwo.mark) {
                         winner = true;
-                        winnerText.textContent = playerTwo.name + " wins!";
-                        container.prepend(winnerText);
+                        displayController.displayText.textContent = playerTwo.name + " wins!";
                         squares.forEach(square => {
                             square.removeEventListener("click", clickHandler);
                         })
-                        container.appendChild(resetButton);
+                        displayController.container.appendChild(displayController.newRoundButton);
             }
             //if every square is full but no rows match
             else if(gameBoardArray.every((element) => element.length > 0) && winner == false) {
-                winnerText.textContent = "It's a tie!";
-                container.prepend(winnerText);
+                displayController.displayText.textContent = "It's a tie!";
+                displayController.container.prepend(displayText);
                 squares.forEach(square => {
                     square.removeEventListener("click", clickHandler);
                 })
-                container.appendChild(resetButton); 
+                container.appendChild(displayController.newRoundButton); 
             }
         }
     }
@@ -83,22 +75,31 @@ const gameBoard = (function() {
             if(totalTurns % 2 == 0){
                 gameBoardArray[number] = playerOne.mark;
                 totalTurns++; 
+                displayController.displayText.textContent = playerTwo.name + "'s turn!";
                 checkForWin();
             }
             else if(totalTurns % 2 == 1){
                 gameBoardArray[number] = playerTwo.mark;
                 totalTurns++; 
+                displayController.displayText.textContent = playerOne.name + "'s turn!";
                 checkForWin();
             }
             displayController.displayBoard();   
         }
     }
 
-    return {gameBoardArray, activateBoard, resetButton, resetBoard};
+    return {gameBoardArray, activateBoard, resetBoard};
 })();
 
 const displayController = (function() {
+    const container = document.querySelector(".content");
+    const displayText = document.createElement("h1");
+    const newRoundButton = document.createElement("button");
+    newRoundButton.classList.add("new-round");
+    newRoundButton.textContent = "New Round";
+
     function displayBoard() {
+        container.prepend(displayText);
         let gameContainer = document.querySelector(".game-container");
         gameContainer.style.display = "grid";
         for(let i = 0; i < gameBoard.gameBoardArray.length; i++) {
@@ -108,24 +109,43 @@ const displayController = (function() {
         }
     }
 
-    gameBoard.resetButton.addEventListener("click", function(e) {
+    newRoundButton.addEventListener("click", function(e) {
         gameBoard.resetBoard();
         displayBoard();
         gameBoard.activateBoard();
     })
 
-    return {displayBoard}
+    return {displayBoard, container, displayText, newRoundButton}
 })();
 
-const Player = (name, mark) => {
-    return {name, mark};
+class Player {
+    constructor(name, mark) {
+        this.name = name;
+        this.mark = mark;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        this._name = name;
+    }
+
+    get mark() {
+        return this._mark;
+    }
+
+    set mark(mark) {
+        this._mark = mark;
+    }
 }
 
 
-// let playerOneName = prompt("Enter name for Player One (X)");
-// let playerTwoName = prompt("Enter name for Player Two (O)");
-const playerOne = Player("A", "X");
-const playerTwo = Player("B", "O");
+let playerOneName = prompt("Enter name for Player One (X)");
+let playerTwoName = prompt("Enter name for Player Two (O)");
+let playerOne = new Player(playerOneName, "X");
+let playerTwo = new Player(playerTwoName, "O");
 
 displayController.displayBoard();
 gameBoard.activateBoard();
