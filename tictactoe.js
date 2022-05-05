@@ -18,6 +18,7 @@ const gameBoard = (function() {
     function resetBoard() {
         for(let i = 0; i < gameBoardArray.length; i++) {
             gameBoardArray[i] = "";
+            document.querySelector("#square" + i.toString()).style.backgroundColor = "white";
         }
         totalTurns = 0;
         displayController.displayText.textContent = ""
@@ -40,6 +41,10 @@ const gameBoard = (function() {
                 gameBoardArray[winConditions[i][2]] == playerOne.mark) {
                     winner = true;
                     displayController.displayText.textContent = playerOne.name + " wins!";
+                    //highlights the winning squares
+                    document.querySelector("#square" + winConditions[i][0].toString()).style.backgroundColor = "#dcfce7";
+                    document.querySelector("#square" + winConditions[i][1].toString()).style.backgroundColor = "#dcfce7";
+                    document.querySelector("#square" + winConditions[i][2].toString()).style.backgroundColor = "#dcfce7";
                     squares.forEach(square => {
                         square.removeEventListener("click", clickHandler);
                     })
@@ -51,6 +56,10 @@ const gameBoard = (function() {
                     gameBoardArray[winConditions[i][2]] == playerTwo.mark) {
                         winner = true;
                         displayController.displayText.textContent = playerTwo.name + " wins!";
+                        //highlights the winning squares
+                        document.querySelector("#square" + winConditions[i][0].toString()).style.backgroundColor = "#dcfce7";
+                        document.querySelector("#square" + winConditions[i][1].toString()).style.backgroundColor = "#dcfce7";
+                        document.querySelector("#square" + winConditions[i][2].toString()).style.backgroundColor = "#dcfce7";
                         squares.forEach(square => {
                             square.removeEventListener("click", clickHandler);
                         })
@@ -95,15 +104,18 @@ const gameBoard = (function() {
 const displayController = (function() {
     const container = document.querySelector(".content");
     const displayText = document.createElement("h1");
+    const popUpForm = document.querySelector("form");
+    const gameContainer = document.querySelector(".game-container");
+
     const newRoundButton = document.createElement("button");
     newRoundButton.classList.add("new-round");
     newRoundButton.textContent = "New Round";
-    let popUpForm = document.querySelector("form");
+
+    
 
     function displayBoard() {
         popUpForm.style.display = "none";
         container.prepend(displayText);
-        let gameContainer = document.querySelector(".game-container");
         gameContainer.style.display = "grid";
         for(let i = 0; i < gameBoard.gameBoardArray.length; i++) {
             //converts the iterator to a string for the square selector
@@ -143,12 +155,12 @@ class Player {
         this._mark = mark;
     }
 }
-
-let submitButton = document.querySelector(".submit");
 let playerOneName = "Player One";
 let playerTwoName = "Player Two";
 let playerOne = new Player(playerOneName, "X");
 let playerTwo = new Player(playerTwoName, "O");
+
+let submitButton = document.querySelector(".submit");
 
 submitButton.addEventListener("click", function(e) {
     playerOneName = document.getElementById("player-one").value
