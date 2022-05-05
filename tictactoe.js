@@ -14,11 +14,11 @@ const gameBoard = (function() {
 
     let squares = Array.from(document.querySelectorAll(".game-container > div"));
 
-    const container = document.querySelector(".global-container");
+    const container = document.querySelector(".content");
     const winnerText = document.createElement("h1");
     const resetButton = document.createElement("button");
     resetButton.classList.add("reset-button");
-    resetButton.textContent = "Reset";
+    resetButton.textContent = "New Round";
     let winner = false;
 
     function resetBoard() {
@@ -99,6 +99,8 @@ const gameBoard = (function() {
 
 const displayController = (function() {
     function displayBoard() {
+        let gameContainer = document.querySelector(".game-container");
+        gameContainer.style.display = "grid";
         for(let i = 0; i < gameBoard.gameBoardArray.length; i++) {
             //converts the iterator to a string for the square selector
             //ex: i = 0 will select square0
@@ -119,9 +121,11 @@ const Player = (name, mark) => {
     return {name, mark};
 }
 
-let playerOneName = prompt("Enter name for Player One (X)");
-let playerTwoName = prompt("Enter name for Player Two (O)");
-const playerOne = Player(playerOneName, "X");
-const playerTwo = Player(playerTwoName, "O");
 
+// let playerOneName = prompt("Enter name for Player One (X)");
+// let playerTwoName = prompt("Enter name for Player Two (O)");
+const playerOne = Player("A", "X");
+const playerTwo = Player("B", "O");
+
+displayController.displayBoard();
 gameBoard.activateBoard();

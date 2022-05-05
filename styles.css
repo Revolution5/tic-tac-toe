@@ -1,36 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: Permanent Marker, sans-serif;
+}
+
 .global-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 95vh;
     box-sizing: border-box;
     gap: 30px;
 }
 
+.header {
+    display: flex;
+    justify-content: center;
+    background-color: #f3f4f6;
+    width: 100%;
+    font-size: 40px;
+}
+
+.header > h1 {
+    margin: 0px;
+    padding: 10px;
+}
+
 .game-container {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     width: 500px;
     height: 500px;
+    grid-row: 2/2;
 }
 
 #square0, #square1, #square2 {
-    border-bottom: solid 3px black;
+    border-bottom: solid 4px black;
     box-sizing: border-box;
 }
 
 #square3, #square4, #square5 {
-    border-bottom: solid 3px black;
+    border-bottom: solid 4px black;
 }
 
 #square0, #square3, #square6 {
-    border-right: solid 3px black;
+    border-right: solid 4px black;
 }
 
 #square1, #square4, #square7 {
-    border-right: solid 3px black;
+    border-right: solid 4px black;
 }
 
 .game-container > div {
@@ -45,3 +66,13 @@
     font-size: 30px;
 }
 
+.content {
+    display: grid;
+    grid-template-rows: 50px auto 50px;
+    row-gap: 50px;
+}
+
+.content > h1 {
+    justify-self: center;
+    align-self: center;
+}
