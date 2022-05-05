@@ -42,9 +42,9 @@ const gameBoard = (function() {
                     winner = true;
                     displayController.displayText.textContent = playerOne.name + " wins!";
                     //highlights the winning squares
-                    document.querySelector("#square" + winConditions[i][0].toString()).style.backgroundColor = "#dcfce7";
-                    document.querySelector("#square" + winConditions[i][1].toString()).style.backgroundColor = "#dcfce7";
-                    document.querySelector("#square" + winConditions[i][2].toString()).style.backgroundColor = "#dcfce7";
+                    document.querySelector("#square" + winConditions[i][0].toString()).style.backgroundColor = "#86efac";
+                    document.querySelector("#square" + winConditions[i][1].toString()).style.backgroundColor = "#86efac";
+                    document.querySelector("#square" + winConditions[i][2].toString()).style.backgroundColor = "#86efac";
                     squares.forEach(square => {
                         square.removeEventListener("click", clickHandler);
                     })
@@ -57,9 +57,9 @@ const gameBoard = (function() {
                         winner = true;
                         displayController.displayText.textContent = playerTwo.name + " wins!";
                         //highlights the winning squares
-                        document.querySelector("#square" + winConditions[i][0].toString()).style.backgroundColor = "#dcfce7";
-                        document.querySelector("#square" + winConditions[i][1].toString()).style.backgroundColor = "#dcfce7";
-                        document.querySelector("#square" + winConditions[i][2].toString()).style.backgroundColor = "#dcfce7";
+                        document.querySelector("#square" + winConditions[i][0].toString()).style.backgroundColor = "#86efac";
+                        document.querySelector("#square" + winConditions[i][1].toString()).style.backgroundColor = "#86efac";
+                        document.querySelector("#square" + winConditions[i][2].toString()).style.backgroundColor = "#86efac";
                         squares.forEach(square => {
                             square.removeEventListener("click", clickHandler);
                         })
