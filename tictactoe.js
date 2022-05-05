@@ -154,11 +154,14 @@ submitButton.addEventListener("click", function(e) {
     playerOneName = document.getElementById("player-one").value
     playerTwoName = document.getElementById("player-two").value
 
-    if(playerOneName.length >= 1)
-        playerOne.name = playerOneName;
+    let playerOneNameTrimmed = playerOneName.trim();
+    let playerTwoNameTrimmed = playerTwoName.trim();
 
-    if(playerTwoName.length >= 1)
-        playerTwo.name = playerTwoName;
+    if(playerOneNameTrimmed.length >= 1)
+        playerOne.name = playerOneNameTrimmed;
+
+    if(playerTwoNameTrimmed.length >= 1)
+        playerTwo.name = playerTwoNameTrimmed;
 
     displayController.displayBoard();
     gameBoard.activateBoard();
